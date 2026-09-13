@@ -25,7 +25,12 @@ export const scoreSalary = (candidate, job, tuning) => {
   const detail = { expectedSalary: expected, salaryRange: { min, max } };
 
   if (expected <= 0) {
-    return { ratio: 1, fit: 'no-expectation', reason: 'Candidate stated no salary expectation', detail };
+    return {
+      ratio: 1,
+      fit: 'no-expectation',
+      reason: 'Candidate stated no salary expectation',
+      detail,
+    };
   }
 
   if (expected <= min) {

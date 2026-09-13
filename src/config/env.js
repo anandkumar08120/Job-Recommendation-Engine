@@ -21,7 +21,9 @@ const asInt = (value, fallback, name) => {
 const asEnum = (value, allowed, fallback, name) => {
   if (value === undefined || value === '') return fallback;
   if (!allowed.includes(value)) {
-    throw new Error(`Invalid value for env var ${name}: "${value}". Expected one of: ${allowed.join(', ')}`);
+    throw new Error(
+      `Invalid value for env var ${name}: "${value}". Expected one of: ${allowed.join(', ')}`,
+    );
   }
   return value;
 };
@@ -56,7 +58,11 @@ export const config = Object.freeze({
     poolMax: asInt(process.env.PGPOOL_MAX, 10, 'PGPOOL_MAX'),
   }),
   recommendations: Object.freeze({
-    defaultLimit: asInt(process.env.DEFAULT_RECOMMENDATION_LIMIT, 10, 'DEFAULT_RECOMMENDATION_LIMIT'),
+    defaultLimit: asInt(
+      process.env.DEFAULT_RECOMMENDATION_LIMIT,
+      10,
+      'DEFAULT_RECOMMENDATION_LIMIT',
+    ),
     maxLimit: asInt(process.env.MAX_RECOMMENDATION_LIMIT, 100, 'MAX_RECOMMENDATION_LIMIT'),
   }),
   shutdownTimeoutMs: asInt(process.env.SHUTDOWN_TIMEOUT_MS, 10_000, 'SHUTDOWN_TIMEOUT_MS'),

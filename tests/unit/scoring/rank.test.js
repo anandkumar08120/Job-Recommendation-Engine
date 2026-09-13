@@ -65,7 +65,11 @@ describe('rankCandidatesForJob', () => {
 
   it('ranks candidates with the same scorer, gate included', () => {
     const strong = aCandidate({ id: 'strong', skills: ['JavaScript', 'Node.js', 'Kubernetes'] });
-    const junior = aCandidate({ id: 'junior', skills: ['JavaScript', 'Node.js'], yearsOfExperience: 1 });
+    const junior = aCandidate({
+      id: 'junior',
+      skills: ['JavaScript', 'Node.js'],
+      yearsOfExperience: 1,
+    });
     const gated = aCandidate({ id: 'gated', skills: ['JavaScript'] });
 
     const results = rankCandidatesForJob(job, [junior, gated, strong]);

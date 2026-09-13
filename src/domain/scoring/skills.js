@@ -35,8 +35,16 @@ export const scoreSkills = (candidate, job, tuning) => {
       ratio: 0,
       reason: `Missing must-have skill(s): ${missingMustHave.join(', ')}`,
       detail: {
-        mustHave: { required: mustHave.length, matched: matchedMustHave.length, missing: missingMustHave },
-        niceToHave: { required: niceToHave.length, matched: matchedNiceToHave.length, missing: missingNiceToHave },
+        mustHave: {
+          required: mustHave.length,
+          matched: matchedMustHave.length,
+          missing: missingMustHave,
+        },
+        niceToHave: {
+          required: niceToHave.length,
+          matched: matchedNiceToHave.length,
+          missing: missingNiceToHave,
+        },
       },
     };
   }
@@ -49,10 +57,15 @@ export const scoreSkills = (candidate, job, tuning) => {
 
   const ratio = tuning.mustHaveShare + (1 - tuning.mustHaveShare) * niceToHaveCoverage;
 
+  const mustHavePhrase =
+    mustHave.length === 0
+      ? 'Job lists no must-have skills'
+      : `Has all ${mustHave.length} must-have skill${mustHave.length === 1 ? '' : 's'}`;
+
   const reason =
     niceToHave.length === 0
-      ? `Has all ${mustHave.length} must-have skill(s); job lists no nice-to-haves`
-      : `Has all ${mustHave.length} must-have skill(s) and ${matchedNiceToHave.length}/${niceToHave.length} nice-to-haves`;
+      ? `${mustHavePhrase}; no nice-to-haves listed`
+      : `${mustHavePhrase}; matched ${matchedNiceToHave.length} of ${niceToHave.length} nice-to-haves`;
 
   return {
     eligible: true,

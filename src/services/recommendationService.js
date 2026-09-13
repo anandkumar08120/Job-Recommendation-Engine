@@ -1,5 +1,9 @@
 import { config } from '../config/env.js';
-import { rankCandidatesForJob, rankJobsForCandidate, resolveWeights } from '../domain/scoring/index.js';
+import {
+  rankCandidatesForJob,
+  rankJobsForCandidate,
+  resolveWeights,
+} from '../domain/scoring/index.js';
 
 /**
  * Recommendation use-cases: fetch, then delegate every judgement call to the
@@ -23,7 +27,11 @@ export const createRecommendationService = ({ repositories, candidateService, jo
       const weights = resolveWeights(weightOverrides);
       const appliedLimit = resolveLimit(limit);
 
-      const ranked = rankJobsForCandidate(candidate, jobs, { limit: appliedLimit, weights, tuning });
+      const ranked = rankJobsForCandidate(candidate, jobs, {
+        limit: appliedLimit,
+        weights,
+        tuning,
+      });
 
       return {
         candidate: { id: candidate.id, name: candidate.name },

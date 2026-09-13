@@ -4,7 +4,11 @@ import { DEFAULT_TUNING } from '../../../src/domain/scoring/weights.js';
 import { aCandidate, aJob } from '../../factories.js';
 
 const score = (years, min, tuning = DEFAULT_TUNING) =>
-  scoreExperience(aCandidate({ yearsOfExperience: years }), aJob({ minYearsExperience: min }), tuning);
+  scoreExperience(
+    aCandidate({ yearsOfExperience: years }),
+    aJob({ minYearsExperience: min }),
+    tuning,
+  );
 
 describe('scoreExperience', () => {
   it('gives full marks when the candidate meets the minimum exactly', () => {

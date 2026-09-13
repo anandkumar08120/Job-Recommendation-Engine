@@ -4,11 +4,7 @@ import { DEFAULT_TUNING } from '../../../src/domain/scoring/weights.js';
 import { aCandidate, aJob } from '../../factories.js';
 
 const score = (expectedSalary, min, max) =>
-  scoreSalary(
-    aCandidate({ expectedSalary }),
-    aJob({ salaryRange: { min, max } }),
-    DEFAULT_TUNING,
-  );
+  scoreSalary(aCandidate({ expectedSalary }), aJob({ salaryRange: { min, max } }), DEFAULT_TUNING);
 
 describe('scoreSalary', () => {
   it('gives full marks when the whole band clears the expectation', () => {

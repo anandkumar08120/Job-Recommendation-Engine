@@ -72,7 +72,9 @@ export const scoreMatch = (candidate, job, { weights, tuning } = {}) => {
     eligible: true,
     score: round2(score),
     breakdown,
-    summary: DIMENSIONS.map((name) => `${name}: ${breakdown[name].points}/${breakdown[name].maxPoints}`),
+    summary: DIMENSIONS.map(
+      (name) => `${name}: ${breakdown[name].points}/${breakdown[name].maxPoints}`,
+    ),
     weights: resolvedWeights,
   };
 };

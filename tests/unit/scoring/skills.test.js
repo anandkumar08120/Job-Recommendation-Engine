@@ -81,7 +81,10 @@ describe('scoreSkills', () => {
   it('does not reward skills beyond what the job asked for', () => {
     const job = aJob({ requiredSkills: [skill('JavaScript', true), skill('Go', false)] });
     const focused = score(aCandidate({ skills: ['JavaScript'] }), job);
-    const generalist = score(aCandidate({ skills: ['JavaScript', 'Rust', 'Elixir', 'Haskell'] }), job);
+    const generalist = score(
+      aCandidate({ skills: ['JavaScript', 'Rust', 'Elixir', 'Haskell'] }),
+      job,
+    );
 
     expect(generalist.ratio).toBe(focused.ratio);
   });

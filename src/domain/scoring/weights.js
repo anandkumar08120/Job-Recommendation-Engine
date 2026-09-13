@@ -84,9 +84,10 @@ const apportionTo100 = (values) => {
     allocated += cents[key];
   }
 
-  const remainders = DIMENSIONS.map((key) => ({ key, remainder: values[key] * 100 - cents[key] })).sort(
-    (a, b) => b.remainder - a.remainder || a.key.localeCompare(b.key),
-  );
+  const remainders = DIMENSIONS.map((key) => ({
+    key,
+    remainder: values[key] * 100 - cents[key],
+  })).sort((a, b) => b.remainder - a.remainder || a.key.localeCompare(b.key));
 
   for (let i = 0; i < 10_000 - allocated; i += 1) {
     cents[remainders[i % remainders.length].key] += 1;

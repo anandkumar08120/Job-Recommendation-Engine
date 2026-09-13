@@ -55,12 +55,21 @@ describe('scoreMatch', () => {
   it('never exceeds the 0..100 bounds, including with custom weights', () => {
     const weights = resolveWeights({ skills: 3, experience: 1, location: 1, salary: 1 });
     const best = scoreMatch(
-      aCandidate({ skills: ['JavaScript', 'Node.js', 'Kubernetes'], yearsOfExperience: 9, expectedSalary: 1 }),
+      aCandidate({
+        skills: ['JavaScript', 'Node.js', 'Kubernetes'],
+        yearsOfExperience: 9,
+        expectedSalary: 1,
+      }),
       aJob(),
       { weights },
     );
     const worst = scoreMatch(
-      aCandidate({ skills: ['JavaScript', 'Node.js'], yearsOfExperience: 0, location: 'Berlin', expectedSalary: 9_999_999 }),
+      aCandidate({
+        skills: ['JavaScript', 'Node.js'],
+        yearsOfExperience: 0,
+        location: 'Berlin',
+        expectedSalary: 9_999_999,
+      }),
       aJob({ requiredSkills: [skill('JavaScript', true)], minYearsExperience: 10 }),
       { weights },
     );
@@ -97,7 +106,9 @@ describe('scoreMatch', () => {
     const job = aJob({ minYearsExperience: 6 });
 
     const strict = scoreMatch(candidate, job).score;
-    const lenient = scoreMatch(candidate, job, { tuning: { experiencePenaltyPerYear: 0.05 } }).score;
+    const lenient = scoreMatch(candidate, job, {
+      tuning: { experiencePenaltyPerYear: 0.05 },
+    }).score;
 
     expect(lenient).toBeGreaterThan(strict);
     expect(scoreMatch(candidate, job).score).toBe(strict);
