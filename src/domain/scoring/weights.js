@@ -65,6 +65,37 @@ export const DEFAULT_TUNING = Object.freeze({
 const isFiniteNumber = (value) => typeof value === 'number' && Number.isFinite(value);
 
 /**
+ * Round a 100-point split to 2dp such that it still sums to exactly 100
+ * (largest-remainder apportionment -- the same trick used for seat allocation).
+ *
+ * Rounding each weight independently lets the leftovers accumulate: a 3:1:1:1
+ * split rounds to 50 + 16.67 * 3 = 100.01, which would let a perfect match score
+ * above the documented maximum. Handing the spare hundredths to the dimensions
+ * with the largest truncated remainders keeps the budget honest, and because
+ * every weight is then an exact 2dp value, `round(ratio * weight) <= weight`
+ * holds per dimension -- so a total can never drift past 100 either.
+ */
+const apportionTo100 = (values) => {
+  const cents = {};
+  let allocated = 0;
+
+  for (const key of DIMENSIONS) {
+    cents[key] = Math.floor(values[key] * 100);
+    allocated += cents[key];
+  }
+
+  const remainders = DIMENSIONS.map((key) => ({ key, remainder: values[key] * 100 - cents[key] })).sort(
+    (a, b) => b.remainder - a.remainder || a.key.localeCompare(b.key),
+  );
+
+  for (let i = 0; i < 10_000 - allocated; i += 1) {
+    cents[remainders[i % remainders.length].key] += 1;
+  }
+
+  return Object.fromEntries(DIMENSIONS.map((key) => [key, cents[key] / 100]));
+};
+
+/**
  * Merge caller-supplied weights over the defaults and rescale them to a 100
  * point budget, so an overall score is always comparable across requests and
  * always lands in 0..100 no matter what the caller passed in.
@@ -94,7 +125,7 @@ export const resolveWeights = (overrides = {}) => {
   for (const key of DIMENSIONS) {
     normalised[key] = (merged[key] / total) * 100;
   }
-  return Object.freeze(normalised);
+  return Object.freeze(apportionTo100(normalised));
 };
 
 export const resolveTuning = (overrides = {}) => Object.freeze({ ...DEFAULT_TUNING, ...overrides });
