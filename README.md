@@ -482,8 +482,8 @@ with the rationale for each value beside it.
 npm test
 ```
 
-**61 tests.** The scoring domain is the highest-value place to test, so that's where the density
-is — every dimension is a pure function, tested directly, with no HTTP or database in the way.
+**82 tests**, ~95% statement coverage. The scoring domain is the highest-value place to test, so
+that's where the density is — every dimension is a pure function, tested directly, with no HTTP or database in the way.
 
 Edge cases covered, including the ones the brief calls out:
 
@@ -501,6 +501,9 @@ Edge cases covered, including the ones the brief calls out:
 - Ties rank identically regardless of input order
 - `?limit=` applied after ranking, not before
 - Empty result set when nothing is eligible, with the reason in `meta`
+- Weight rescaling: odd splits still sum to exactly 100, a dimension can be switched off, and
+  unknown/negative/all-zero weights are rejected
+- An unknown candidate 404s rather than returning an empty recommendation list
 
 Integration tests drive the real Express app via supertest over in-memory repositories — no mocking
 framework, no database. What's tested is what runs.
