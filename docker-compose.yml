@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: jobmatch
+      POSTGRES_PASSWORD: jobmatch
+      POSTGRES_DB: jobmatch
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Applied once, on first boot of an empty data directory.
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U jobmatch -d jobmatch']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: .
+    init: true
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      LOG_LEVEL: info
+      STORAGE_DRIVER: postgres
+      DATABASE_URL: postgres://jobmatch:jobmatch@db:5432/jobmatch
+    ports:
+      - '3000:3000'
+    depends_on:
+      db:
+        # Wait for Postgres to actually accept connections, not merely to have
+        # started -- otherwise the API's first queries race the database's init.
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:
