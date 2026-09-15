@@ -1,8 +1,4 @@
-# syntax=docker/dockerfile:1
 
-# --- dependencies -----------------------------------------------------------
-# Installed in their own stage so the runtime image never carries dev
-# dependencies, npm caches or build tooling.
 FROM node:22-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./

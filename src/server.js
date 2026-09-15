@@ -4,13 +4,6 @@ import { logger } from './lib/logger.js';
 import { createRepositories } from './repositories/index.js';
 import { createServices } from './services/index.js';
 
-/**
- * Process entry point: build the object graph, listen, and shut down cleanly.
- *
- * Graceful shutdown matters in a container: on SIGTERM the orchestrator expects
- * in-flight requests to finish and the database pool to close, with a hard
- * timeout so a stuck connection cannot block the rollout forever.
- */
 const start = async () => {
   const repositories = await createRepositories();
   const services = createServices({ repositories });

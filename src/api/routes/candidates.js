@@ -49,7 +49,5 @@ const toMeta = ({ candidate, weights, limit, totalJobs, eligibleJobs }) => ({
   limit,
   totalJobs,
   eligibleJobs,
-  // Jobs removed by the must-have gate, surfaced so an empty result set is
-  // self-explanatory rather than looking like a bug.
   filteredOutByMustHaveSkills: totalJobs - eligibleJobs,
 });

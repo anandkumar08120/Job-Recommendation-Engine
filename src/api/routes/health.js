@@ -1,12 +1,5 @@
 import { Router } from 'express';
 
-/**
- * Two probes, deliberately different:
- *  - /health  is liveness. Process is up; never touches a dependency, so a
- *             database blip cannot get the container killed and restarted.
- *  - /ready   is readiness. Pings persistence, because a pod that cannot reach
- *             its database should be pulled out of the load balancer.
- */
 export const createHealthRouter = ({ repositories }) => {
   const router = Router();
 

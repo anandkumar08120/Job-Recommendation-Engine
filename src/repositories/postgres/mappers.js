@@ -1,10 +1,3 @@
-/**
- * Row <-> domain mapping.
- *
- * The database speaks snake_case and returns BIGINT as a string; the domain
- * speaks camelCase and numbers. Keeping the translation in one file means the
- * scorer never has to know that `expected_salary` arrives as "2000000".
- */
 
 const toNumber = (value) => (value === null || value === undefined ? value : Number(value));
 

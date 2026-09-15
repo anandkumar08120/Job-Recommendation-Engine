@@ -1,14 +1,6 @@
--- Schema for the job-match API.
--- Applied automatically by the Postgres container on first boot
--- (mounted into /docker-entrypoint-initdb.d), or manually via `npm run migrate`.
-
 CREATE TABLE IF NOT EXISTS candidates (
     id                  TEXT PRIMARY KEY,
     name                TEXT NOT NULL,
-    -- Skills are a value list owned entirely by the candidate, never queried
-    -- independently, so jsonb keeps them in one row instead of forcing a join
-    -- for every read. A GIN index makes containment lookups cheap if the
-    -- must-have filter is ever pushed down into SQL.
     skills              JSONB NOT NULL,
     years_of_experience DOUBLE PRECISION NOT NULL CHECK (years_of_experience >= 0),
     location            TEXT NOT NULL,

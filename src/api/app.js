@@ -10,13 +10,6 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { createApiRouter } from './routes/index.js';
 import { createHealthRouter } from './routes/health.js';
 
-/**
- * Builds the Express app over an already-wired service layer.
- *
- * Taking services as an argument (rather than importing them) is what lets a
- * test spin up a fully real app against in-memory repositories in one line, with
- * no module mocking.
- */
 export const createApp = ({ services, repositories }) => {
   const app = express();
 
@@ -44,9 +37,6 @@ export const createApp = ({ services, repositories }) => {
   app.use(createHealthRouter({ repositories }));
 
   const api = createApiRouter({ services });
-  // Mounted twice on purpose: the unprefixed paths are the ones in the brief
-  // (GET /jobs/:id/recommendations), and /api/v1 is the versioned alias that
-  // gives the API somewhere to evolve without breaking existing callers.
   app.use('/', api);
   app.use('/api/v1', api);
 

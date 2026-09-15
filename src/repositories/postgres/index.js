@@ -11,13 +11,6 @@ const asConflict = (error, resource, id) => {
   return error;
 };
 
-/**
- * Postgres implementation of the repository contract.
- *
- * Deliberately the same five methods as the in-memory driver -- nothing above
- * this layer can tell which one it is talking to. Every statement is
- * parameterised; no SQL is ever built by string concatenation.
- */
 export const createPostgresRepositories = () => {
   const pool = getPool();
 

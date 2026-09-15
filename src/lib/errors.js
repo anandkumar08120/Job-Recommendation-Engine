@@ -1,10 +1,3 @@
-/**
- * Application error taxonomy.
- *
- * Services throw these; a single Express error middleware turns them into HTTP
- * responses. Domain and service layers therefore never import `res` or know
- * anything about HTTP, which is what keeps them unit-testable in isolation.
- */
 
 export class AppError extends Error {
   constructor(message, { status = 500, code = 'INTERNAL_ERROR', details } = {}) {

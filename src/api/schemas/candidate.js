@@ -1,11 +1,6 @@
 import { z } from 'zod';
 import { identifier, money, nonEmptyText } from './common.js';
 
-/**
- * `strictObject` rejects unknown keys instead of silently dropping them. A typo
- * like `yearsOfExperiance` should be a loud 400, not a candidate quietly stored
- * with zero years of experience.
- */
 export const createCandidateSchema = z.strictObject({
   id: identifier.optional(),
   name: nonEmptyText(200),

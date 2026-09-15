@@ -1,24 +1,4 @@
-/**
- * Salary dimension -- scored on how the expectation sits against the band.
- *
- *   expected <= min            -> 1.0   the whole band clears the expectation
- *   min < expected <= max      -> 1.0 .. floor (default 0.5), linearly
- *                                       payable, but the headroom is shrinking
- *   max < expected <= max*1.1  -> 0.15 .. 0, linearly
- *                                       "near zero": a small, negotiable gap
- *   expected > max*1.1         -> 0     the job cannot pay what they want
- *
- * The interesting choice is the in-range floor. An expectation sitting exactly
- * at the top of the band is technically affordable but leaves nothing for a
- * counter-offer or a raise, so it is worth materially less than a band that
- * starts above the expectation -- half marks rather than full. The tolerance
- * Crossing the ceiling is a cliff rather than a slope. The brief requires a job
- * whose max is below the expectation to score near zero, so the moment the
- * expectation passes max the dimension drops to `salaryOverreachCeiling` (15%)
- * and decays from there to exactly zero. The narrow tolerance band exists only
- * because advertised ranges are negotiable -- it is never enough to carry an
- * unaffordable job into the top results on its own.
- */
+
 export const scoreSalary = (candidate, job, tuning) => {
   const expected = candidate.expectedSalary ?? 0;
   const { min, max } = job.salaryRange ?? {};

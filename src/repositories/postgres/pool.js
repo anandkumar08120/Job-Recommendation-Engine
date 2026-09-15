@@ -4,13 +4,6 @@ import { logger } from '../../lib/logger.js';
 
 let pool;
 
-/**
- * One pool per process, created lazily.
- *
- * `pg` emits 'error' on idle clients dropped by the server (a restart, a
- * connection reaper). Without this listener that event is unhandled and takes
- * the process down, which is a genuinely surprising way to lose an API.
- */
 export const getPool = () => {
   if (!pool) {
     pool = new pg.Pool({

@@ -1,13 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { NotFoundError } from '../lib/errors.js';
 
-/**
- * Candidate use-cases.
- *
- * Repositories arrive by injection rather than being imported: the service has
- * no opinion about where data lives, and tests can hand it any implementation of
- * the contract.
- */
 export const createCandidateService = ({ repositories }) => ({
   async create(input) {
     const candidate = {

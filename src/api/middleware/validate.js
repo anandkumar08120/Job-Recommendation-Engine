@@ -7,14 +7,6 @@ const formatIssues = (error) =>
     code: issue.code,
   }));
 
-/**
- * Parse-don't-validate at the edge.
- *
- * Handlers below this point receive `req.validated`, which is typed, trimmed and
- * defaulted -- so no route or service ever re-checks whether a field is present.
- * Results are written to `req.validated` rather than back onto `req.query`,
- * which is a getter in Express 5.
- */
 export const validate =
   ({ body, params, query }) =>
   (req, _res, next) => {

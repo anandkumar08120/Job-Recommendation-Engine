@@ -1,13 +1,3 @@
-/**
- * Text canonicalisation used for matching skills and locations.
- *
- * Matching is string equality on a canonical form rather than fuzzy/semantic
- * similarity: the brief asks for a transparent, explainable scorer, and a
- * deterministic comparison is something a recruiter can reason about and a test
- * can pin down. See README ("Assumptions") for the trade-off this implies.
- */
-
-/** "Node.js", "node js", "NODE-JS" -> "nodejs" */
 export const canonicalSkill = (value) =>
   String(value)
     .normalize('NFKD')

@@ -1,13 +1,5 @@
 import 'dotenv/config';
 
-/**
- * Centralised, validated environment access.
- *
- * Everything that reads `process.env` in this codebase does it here, so the rest
- * of the app depends on a plain frozen object instead of ambient global state.
- * That keeps modules trivially testable and makes misconfiguration fail fast at
- * boot rather than on the first request that happens to need the value.
- */
 
 const asInt = (value, fallback, name) => {
   if (value === undefined || value === '') return fallback;

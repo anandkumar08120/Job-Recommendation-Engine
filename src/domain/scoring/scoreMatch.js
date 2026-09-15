@@ -6,18 +6,6 @@ import { DIMENSIONS, resolveTuning, resolveWeights } from './weights.js';
 
 const round2 = (value) => Math.round(value * 100) / 100;
 
-/**
- * Score one candidate against one job.
- *
- * Pure: same inputs, same output, no I/O, no clock, no randomness. That is what
- * makes the result reproducible and the whole thing testable -- and it is the
- * reason the "why" of a score can be handed back to the user verbatim instead of
- * being reverse-engineered from a model.
- *
- * Returns `eligible: false` (with the reason) when the candidate misses a
- * must-have skill. Callers decide what to do with that; the ranking helpers drop
- * such pairs entirely, which is the hard filter the brief requires.
- */
 export const scoreMatch = (candidate, job, { weights, tuning } = {}) => {
   const resolvedWeights = weights ?? resolveWeights();
   const resolvedTuning = resolveTuning(tuning);
@@ -49,11 +37,7 @@ export const scoreMatch = (candidate, job, { weights, tuning } = {}) => {
 
   for (const name of DIMENSIONS) {
     const dimension = dimensions[name];
-    // resolveWeights() already apportions the budget to exact 2dp values that
-    // sum to 100, so maxPoints needs no further rounding.
     const maxPoints = resolvedWeights[name];
-    // Round per dimension first so the breakdown always adds up to the headline
-    // score exactly -- an explanation that does not reconcile is worse than none.
     const points = round2(dimension.ratio * resolvedWeights[name]);
 
     breakdown[name] = {

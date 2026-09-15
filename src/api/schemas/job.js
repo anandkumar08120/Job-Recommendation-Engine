@@ -3,11 +3,6 @@ import { identifier, money, nonEmptyText } from './common.js';
 
 const requiredSkillSchema = z.strictObject({
   name: nonEmptyText(100),
-  /**
-   * Defaults to false: an unmarked skill is treated as nice-to-have. Must-haves
-   * eliminate candidates outright, so the safe default is the one that cannot
-   * silently hide people from results.
-   */
   mustHave: z.boolean().default(false),
 });
 

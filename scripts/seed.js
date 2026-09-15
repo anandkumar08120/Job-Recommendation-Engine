@@ -1,13 +1,3 @@
-/**
- * Loads a small, deliberately varied demo dataset into a running API.
- *
- *   npm start &           # or docker compose up
- *   node scripts/seed.js  # BASE_URL=http://localhost:3000 by default
- *
- * The fixtures are chosen to exercise every branch of the scorer: a gated-out
- * must-have, a remote-only fit, an underqualified candidate and a job that
- * cannot meet the expected salary.
- */
 const BASE_URL = process.env.BASE_URL ?? 'http://localhost:3000';
 
 const candidates = [

@@ -5,17 +5,6 @@ import {
   resolveWeights,
 } from '../domain/scoring/index.js';
 
-/**
- * Recommendation use-cases: fetch, then delegate every judgement call to the
- * pure scoring domain. Nothing here decides what a good match is -- that lives
- * in src/domain/scoring and is unit-tested in isolation.
- *
- * Scoring runs in-process over the full candidate/job set. At the scale this
- * brief implies that is the right call: it keeps the scorer a single, readable,
- * fully testable function instead of a SQL expression split across the database
- * and the app. See README ("What I'd do differently with more time") for where
- * that breaks down and what replaces it.
- */
 export const createRecommendationService = ({ repositories, candidateService, jobService }) => {
   const resolveLimit = (limit) =>
     Math.min(limit ?? config.recommendations.defaultLimit, config.recommendations.maxLimit);
